@@ -1,0 +1,21 @@
+
+<html>
+
+<head>
+  <title>Login</title>
+</head>
+
+<header>
+  <img src="assets/download.jpg" width="180" height="110">
+</header>
+
+
+<form class="box" action="index.html">
+  <h1>Login</h1>
+  <input type="text" name="LOGIN_email" [(ngModel)]="loginObject.LOGIN_email"  placeholder="Email">
+  <input type="password" name="LOGIN_password" [(ngModel)]="loginObject.LOGIN_password" placeholder="Password">
+  <input type="button" (click)="onLogin()" value="Login">
+</form>
+<br>
+<button type="button">Register</button>
+</html>
