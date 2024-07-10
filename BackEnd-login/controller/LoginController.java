@@ -1,9 +1,6 @@
 package org.example.controller;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.Response;
 import org.example.dao.DoctorDAO;
@@ -11,6 +8,7 @@ import org.example.dao.LoginDAO;
 import org.example.dao.PatientDAO;
 import org.example.dto.IdDTO;
 import org.example.dto.LoginDTO;
+import org.example.dto.LoginRespondDTO;
 import org.example.model.Doctor;
 import org.example.model.Login;
 import org.example.model.Patient;
@@ -25,13 +23,13 @@ public class LoginController
     PatientDAO patientDAO = new PatientDAO();
     DoctorDAO doctorDAO = new DoctorDAO();
 
-    @GET
-    public Response login(@QueryParam("email") String email, @QueryParam("password") String password) throws SQLException {
+    @POST
+    public Response login(LoginDTO loginDTO) throws SQLException {
 
-        LoginDTO loginDTO;
+        LoginRespondDTO loginRespondDTO;
         try
         {
-            Login login = loginDAO.getLogin(email, password);
+            Login login = loginDAO.getLogin(loginDTO.getLOGIN_email(), loginDTO.getLOGIN_password());
 
             GenericEntity<ArrayList<Doctor>> doctors = new GenericEntity<ArrayList<Doctor>>(doctorDAO.selectAllDoctorLogin()) {};
             //select * from DOCTOR;
@@ -44,28 +42,28 @@ public class LoginController
                 if (login.getLOGIN_Type().equals("Doctor")) {
 
                     for (Doctor doctor : doctors.getEntity()) {
-                        if (doctor.getDoctor_email().equals(email) && doctor.getDoctor_password().equals(password)) {
+                        if (doctor.getDoctor_email().equals(loginDTO.getLOGIN_email()) && doctor.getDoctor_password().equals(loginDTO.getLOGIN_password())) {
 
                             Integer doctorID = doctor.getDoctor_ID();
-                            loginDTO = new LoginDTO(doctorID, login.getLOGIN_Type());
-                            return Response.ok(loginDTO).build();
+                            loginRespondDTO = new LoginRespondDTO(doctorID, login.getLOGIN_Type());
+                            return Response.ok(loginRespondDTO).build();
                         }
                     }
                 }
                 else
                 {
                     for (Patient patient : patients.getEntity()) {
-                        if (patient.getPatient_email().equals(email) && patient.getPatient_password().equals(password)) {
+                        if (patient.getPatient_email().equals(loginDTO.getLOGIN_email()) && patient.getPatient_password().equals(loginDTO.getLOGIN_password())) {
 
                             Integer patientID = patient.getPatient_ID();
-                            loginDTO = new LoginDTO(patientID, login.getLOGIN_Type());
-                            return Response.ok(loginDTO).build();
+                            loginRespondDTO = new LoginRespondDTO(patientID, login.getLOGIN_Type());
+                            return Response.ok(loginRespondDTO).build();
                         }
                     }
                 }
             }
-            loginDTO = new LoginDTO(0, "");
-            return Response.ok(loginDTO).build();
+            loginRespondDTO = new LoginRespondDTO(0, "");
+            return Response.ok(loginRespondDTO).build();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
