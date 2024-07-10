@@ -2,30 +2,30 @@ package org.example.dto;
 
 public class LoginDTO
 {
-    Integer id;
-    String type;
+    String LOGIN_email;
+    String LOGIN_password;
 
     public LoginDTO() {
     }
 
-    public LoginDTO(Integer id, String type) {
-        this.id = id;
-        this.type = type;
+    public LoginDTO(String LOGIN_email, String LOGIN_password) {
+        this.LOGIN_email = LOGIN_email;
+        this.LOGIN_password = LOGIN_password;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getLOGIN_email() {
+        return LOGIN_email;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getLOGIN_password() {
+        return LOGIN_password;
     }
 
-    public Integer getId() {
-        return id;
+    public void setLOGIN_email(String LOGIN_email) {
+        this.LOGIN_email = LOGIN_email;
     }
 
-    public String getType() {
-        return type;
+    public void setLOGIN_password(String LOGIN_password) {
+        this.LOGIN_password = LOGIN_password;
     }
 }
