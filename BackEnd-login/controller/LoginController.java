@@ -64,7 +64,8 @@ public class LoginController
                     }
                 }
             }
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            loginDTO = new LoginDTO(0, "");
+            return Response.ok(loginDTO).build();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
