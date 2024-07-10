@@ -1,0 +1,15 @@
+
+@POST
+    public Response insertPatient(Patient patient) {
+        try {
+            patientDAO.insertPatient(patient);
+            RegesterPatientDTO dto = new RegesterPatientDTO(null, patient.getPatient_first_name(), patient.getPatient_last_name());
+
+            Login login = new Login(1, "Patient", patient.getPatient_email(), patient.getPatient_password());
+            LoginController.register(login);
+
+            return Response.ok(dto).build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
